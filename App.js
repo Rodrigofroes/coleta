@@ -3,7 +3,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { MaterialIcons } from '@expo/vector-icons';
 import HomePage from './pages/homePage';
-import EventsPage from './pages/eventsPage';
 import DenunciaPage from './pages/DenunciaPage';
 
 // Componente para as tabs principais
@@ -13,15 +12,10 @@ function TabNavigator() {
       name: 'Início',
       component: HomePage,
       icon: 'home',
-    },
-    {
-      name: 'Eventos',
-      component: EventsPage,
-      icon: 'event',
-    },
+    }
   ];
 
-  const Tab = createBottomTabNavigator();
+  const Stack = createStackNavigator();
 
   return (
     // <Tab.Navigator>
@@ -41,7 +35,21 @@ function TabNavigator() {
     //     />
     //   ))}
     // </Tab.Navigator>
-    <HomePage />
+    <Stack.Navigator>
+      {tabs.map((tab) => (
+        <Stack.Screen
+          key={tab.name}
+          name={tab.name}
+          component={tab.component}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ color, size }) => (
+              <MaterialIcons name={tab.icon} size={size} color={color} />
+            ),
+          }}
+        />
+      ))}
+    </Stack.Navigator>
   );
 }
 

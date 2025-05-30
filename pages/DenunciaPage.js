@@ -154,7 +154,7 @@ export default function DenunciaPage({ navigation }) {
         img: foto ? foto.uri : null,
       };
 
-      await addDoc(collection(db, 'denuncias'), denunciaData);
+      await addDoc(collection(db, 'coletas'), denunciaData);
 
       Alert.alert(
         'Sucesso!',

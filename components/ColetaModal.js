@@ -164,13 +164,6 @@ const ColetaModal = ({ visible, coleta, onClose }) => {
                   </View>
                 </View>
               )}
-
-              {coleta?.tipo && (
-                <View style={styles.infoRow}>
-                  <Text style={styles.infoLabel}>Tipo:</Text>
-                  <Text style={styles.infoText}>{coleta.tipo}</Text>
-                </View>
-              )}
             </ScrollView>
 
             <View style={styles.modalFooter}>

@@ -1,11 +1,12 @@
 import * as Location from 'expo-location';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react'; // Adicionado useCallback
 import { StyleSheet, Text, View } from 'react-native';
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import MapComponent from '../components/MapComponent';
 import MapControls from '../components/MapControls';
 import ColetaModal from '../components/ColetaModal';
+import { useFocusEffect } from '@react-navigation/native'; // Importar useFocusEffect
 
 export default function HomePage({ navigation }) {
     const [location, setLocation] = useState(null);
@@ -15,29 +16,31 @@ export default function HomePage({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
     const mapRef = useRef(null);
 
-    useEffect(() => {
-        const fetchColetas = async () => {
-            try {
-                const querySnapshot = await getDocs(collection(db, 'coletas'));
-                const coletasData = querySnapshot.docs.map(doc => {
-                    const data = doc.data();
-                    return {
-                        id: doc.id,
-                        ...data,
-                        latitude: data.latitude ? parseFloat(data.latitude) : null,
-                        longitude: data.longitude ? parseFloat(data.longitude) : null,
-                        lat: data.lat ? parseFloat(data.lat) : null,
-                        long: data.long ? parseFloat(data.long) : null
-                    };
-                });
-                setColetas(coletasData);
-            } catch (error) {
-                console.error('Erro ao buscar coletas: ', error);
-            }
-        };
+    const fetchColetas = async () => {
+        try {
+            const querySnapshot = await getDocs(collection(db, 'coletas'));
+            const coletasData = querySnapshot.docs.map(doc => {
+                const data = doc.data();
+                return {
+                    id: doc.id,
+                    ...data,
+                    latitude: data.latitude ? parseFloat(data.latitude) : null,
+                    longitude: data.longitude ? parseFloat(data.longitude) : null,
+                    lat: data.lat ? parseFloat(data.lat) : null,
+                    long: data.long ? parseFloat(data.long) : null
+                };
+            });
+            setColetas(coletasData);
+        } catch (error) {
+            console.error('Erro ao buscar coletas: ', error);
+        }
+    };
 
-        fetchColetas();
-    }, []);
+    useFocusEffect(
+        useCallback(() => {
+            fetchColetas();
+        }, [])
+    );
 
     useEffect(() => {
         (async () => {
