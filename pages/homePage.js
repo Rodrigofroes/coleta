@@ -1,12 +1,12 @@
 import * as Location from 'expo-location';
-import { useEffect, useState, useRef, useCallback } from 'react'; // Adicionado useCallback
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import MapComponent from '../components/MapComponent';
 import MapControls from '../components/MapControls';
 import ColetaModal from '../components/ColetaModal';
-import { useFocusEffect } from '@react-navigation/native'; // Importar useFocusEffect
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function HomePage({ navigation }) {
     const [location, setLocation] = useState(null);
